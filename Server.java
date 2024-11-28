@@ -3,8 +3,8 @@ import java.net.*;
 
 abstract class Shape implements Serializable {
     public abstract double calculateArea();
-}
 
+}
 class Circle extends Shape {
     private double radius;
 
@@ -19,7 +19,8 @@ class Circle extends Shape {
 }
 
 class Rectangle extends Shape {
-    private double width, height;
+    private double width;
+    private double height;
 
     public Rectangle(double width, double height) {
         this.width = width;
@@ -34,9 +35,9 @@ class Rectangle extends Shape {
 
 public class Server {
     public static void main(String[] args) {
-        try (ServerSocket serverSocket = new ServerSocket(5000)) {
+        try (ServerSocket Socket = new ServerSocket(4900)) {
             System.out.println("сервер запущен...");
-            try (Socket socket = serverSocket.accept();
+            try (Socket socket = Socket.accept();
                  ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
                  ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream())) {
                 while (true) {
@@ -44,9 +45,9 @@ public class Server {
                     if (obj instanceof Shape) {
                         Shape shape = (Shape) obj;
                         double area = shape.calculateArea();
-                        output.writeObject("ответ будет: " + area);
+                        output.writeObject("Ответ будет:\n " + area + " вот!");
                     } else if (obj.equals("Q")) {
-                        System.out.println("соединение завершается...");
+                        System.out.println("соединение завершено...");
                         break;
                     }
                 }
